@@ -6,6 +6,7 @@ library(shinythemes)
 library(data.table)
 library(RCurl)
 library(randomForest)
+library(markdown)
 
 # Read data
 weather <- read.csv("https://raw.githubusercontent.com/dataprofessor/data/master/weather-weka.csv", stringsAsFactors = T )
@@ -146,7 +147,40 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                              tableOutput('tabledata2') # Prediction results table
                              
                            )
-                           )         
+                           ),
+                  tabPanel("BMI Calculator",
+                           # Input values
+                           sidebarPanel(
+                             tags$label(h3('BMI Calculator')),
+                             HTML("<h3>Input parameters</h3>"),
+                             sliderInput("height", 
+                                         label = "Height", 
+                                         value = 175, 
+                                         min = 40, 
+                                         max = 250),
+                             sliderInput("weight", 
+                                         label = "Weight", 
+                                         value = 70, 
+                                         min = 20, 
+                                         max = 100),
+                             
+                             actionButton("submitbutton5", 
+                                          "Submit", 
+                                          class = "btn btn-primary")
+                           ),
+                           
+                           mainPanel(
+                             tags$label(h3('Status/Output')), # Status/Output Text Box
+                             verbatimTextOutput('contents3'),
+                             tableOutput('tabledata3') # Results table
+                           ) # mainPanel()
+                           
+                  ),
+                  tabPanel("About", 
+                           titlePanel("About"), 
+                           div(includeMarkdown("about.md"), 
+                               align="justify")
+                  ) #tabPanel(), About
                            
                            
                 
@@ -236,6 +270,15 @@ server <- function(input, output, session) {
     
   })
   
+  datasetInput3 <- reactive({  
+    
+    bmi <- input$weight/( (input$height/100) * (input$height/100) )
+    bmi <- data.frame(bmi)
+    names(bmi) <- "BMI"
+    print(bmi)
+    
+  })
+  
   # Status/Output Text Box
   output$contents <- renderPrint({
     if (input$submitbutton3>0) { 
@@ -265,6 +308,22 @@ server <- function(input, output, session) {
   output$tabledata2 <- renderTable({
     if (input$submitbutton4>0) { 
       isolate(datasetInput2()) 
+    } 
+  })
+  
+  # Status/Output Text Box
+  output$contents3 <- renderPrint({
+    if (input$submitbutton5>0) { 
+      isolate("Calculation complete.") 
+    } else {
+      return("Server is ready for calculation.")
+    }
+  })
+  
+  # Prediction results table
+  output$tabledata3 <- renderTable({
+    if (input$submitbutton5>0) { 
+      isolate(datasetInput3()) 
     } 
   })
   

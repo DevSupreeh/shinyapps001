@@ -1,0 +1,12 @@
+name: main
+title: main
+username:
+account: devsupreeh
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3850200
+bundleId: 4393047
+url: https://devsupreeh.shinyapps.io/main/
+when: 1616668802.61084
+asMultiple: FALSE
+asStatic: FALSE
