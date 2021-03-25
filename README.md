@@ -1,6 +1,9 @@
 # shinyapps001
 Trial Shiny web application
-- RenderText
-- RenderPlot
-- Data Driven Playing Golf Weather Prediction
-- Machine Learning Based Iris Predictor
+- [x] RenderText
+- [x] RenderPlot
+- [x] Data Driven Playing Golf Weather Prediction
+- [x] Machine Learning Based Iris Predictor
+- [ ] My own web application on a real life problem
+
+
